@@ -1,0 +1,90 @@
+{% extends "layout.html" %}
+
+{% block title %}
+   {{ _nametest }}
+{% endblock %}
+
+{% block main %}
+<!-- standard version -->
+<script src="https://cdn.rawgit.com/alertifyjs/alertify.js/v1.0.10/dist/js/alertify.js"></script>
+
+<script type="text/JavaScript">
+
+    function ShowAlert(){
+
+
+        var totalQuestions = 0;
+        var correctAnswers = 0;
+
+        var forms = document.getElementsByClassName("question-group");//забираем список форм с вопросами
+        var answers = document.getElementsByName("optionsRadios"); // забираем список ответов, будет равен количеству вопросов *4
+
+        for(var k = 0; k < forms.length; k++){
+
+        totalQuestions++;//подсчитываем количество вопросов
+
+          var id = parseInt(forms[k].getAttribute("value")) - 1; //достаем из value формы индекс правильного ответа
+         var answersCount = 4;
+         for(var i = 0; i < answersCount; i++){
+
+          //console.log("Answer #"+ (answersCount*k + i) +" , "+ answers[answersCount*k + i].checked+" , "+ id);
+          if(answers[answersCount*k + i].checked && id === i){//если номер чекнутого радиобатона совпадает с индексом правильного ответа
+
+           correctAnswers++;
+
+          }
+
+         }
+
+
+        }
+
+        alertify.alert("Your result is "+correctAnswers +"/"+totalQuestions +" :)");
+
+
+}
+</script>
+
+<!-- -->
+
+    <form id="tests-form">
+        <fieldset>
+            <div class="form-group">
+                <p>
+                    <b><h2> {{ _nametest }} </h2></b>
+                </p>
+                {% for question in _questions %}
+            <form name="question">
+    <!--<div class="radio">-->
+            <div class="question-group" value="{{ question.idx_true }}">
+                <p>
+                    <b> {{ question.text }} </b>
+                </p>
+            <!---->
+                {% for ans in question.answers %}
+                    <!--<div class="rdbutton">-->
+            <div class="form-group">
+                <div class="radio">
+                    <label>
+                        <div class="radio"><input type="radio" name="optionsRadios">{{ ans }}</div>
+                    </label>
+                </div>
+            </div>
+                {% endfor %}
+            <!---->
+              </div>
+
+           </form>
+    {% endfor %}
+
+             <div>
+         <button  type="button" onclick="ShowAlert()">Get result</button>
+      <!--</div>-->
+        <!--</div>-->
+    </fieldset>
+
+  </form>
+
+
+{% endblock %}
+

@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Choose test
+{% endblock %}
+
+{% block main %}
+    <form id="myform" action="{{ url_for('ChooseTest') }}" method="post">
+        <fieldset>
+            <div class="form-group">
+                <select name="tests">
+                    {% for test in _tests %}
+                        <option value="{{ test.idtest }}">{{ test.test }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-default"  name="btn" type="submit" >Select</button>
+            </div>
+        </fieldset>
+    </form>
+{% endblock %}
+

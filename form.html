@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Form
+{% endblock %}
+
+{% block main %}
+<script src="https://cdn.rawgit.com/alertifyjs/alertify.js/v1.0.10/dist/js/alertify.js"></script>
+
+    <script type="text/JavaScript">
+        function checkForm(){
+            // забираем все радиобатоны
+            var answers = document.getElementsByName("optionsRadios");
+            var checked = false;
+
+            for(var k = 0; k < answers.length; k++){
+                if (answers[k].checked == true){
+                    checked = true;
+                    break;
+                }
+            }
+
+            if(!checked){
+                alert("Mark the correct answer");
+                return false
+            }
+            else{
+                var answer1 = document.getElementsByName("answer1")[0].value;
+                var answer2 = document.getElementsByName("answer2")[0].value;
+            }
+            if(answer1 == "" || answer2 == ""){
+                alert("Enter other answers");
+                return false
+            }
+            else{
+                document.getElementById('myform').submit()
+            }
+        }
+    </script>
+
+    <form id="myform" action="{{ url_for('form') }}" method="post">
+
+        <p>Create the text</p>
+        <fieldset>
+            <div class="form-group">
+                <input autocomplete="off" autofocus class="fill" name="testname" placeholder="Enter the testname" value="{{ _nametest }}" type="text"/>
+            </div>
+            <div class="form-group">
+                <input class="fill" name="question" placeholder="Enter the question">
+            </div>
+
+            <div class="radio">
+			    <div class="radio"><input type="radio" name="optionsRadios" value="1"><input class="fill" name="answer1" placeholder="Enter the answer 1" type="text"/></div>
+                <div class="radio"><input type="radio" name="optionsRadios" value="2"><input class="fill" name="answer2" placeholder="Enter the answer 2" type="text"/></div>
+                <div class="radio"><input type="radio" name="optionsRadios" value="3"><input class="fill" name="answer3" placeholder="Enter the answer 3" type="text"/></div>
+                <div class="radio"><input type="radio" name="optionsRadios" value="4"><input class="fill" name="answer4" placeholder="Enter the answer 4" type="text"/></div>
+            </div>
+
+            <p class="help-block">Mark the correct answer</p>
+
+            <div class="form-group">
+                <button class="btn btn-default"  name="btn" onclick="return checkForm()" type="submit" value="new_question">Add the question</button>
+            </div>
+
+            <div class="form-group">
+
+                <button class="btn btn-default"  name="btn" onclick="return checkForm()" type="submit" value="new_test">Create the test</button>
+
+            </div>
+        </fieldset>
+    </form>
+{% endblock %}
+
